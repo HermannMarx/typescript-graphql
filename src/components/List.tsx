@@ -1,40 +1,61 @@
 import { useNavigate, useParams, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 interface Props {
-  issues: [
-    [
-      {
-        node: {
-          title: string;
-        };
-      }
-    ]
-  ];
-  page: number;
-  setPage: Function;
+  setRepoFound: Function;
 }
 
-const ListOfIssues: React.FC<Props> = ({ issues, page, setPage }) => {
+type DefaultRootState = {
+  Issues: {
+    issues: [
+      [
+        {
+          node: {
+            title: String;
+            body: string;
+            comments: {
+              edges: [
+                {
+                  node: {
+                    bodyText: string;
+                  };
+                }
+              ];
+            };
+          };
+        }
+      ]
+    ];
+  };
+};
+
+const ListOfIssues: React.FC<Props> = ({ setRepoFound }) => {
+  const reduxIssues = useSelector((state: DefaultRootState) => state.Issues);
+
+  console.log("This is redux: ", reduxIssues);
+
   const { site } = useParams();
   const siteAsInt = parseInt(site + "");
   console.log("Typeofsite", typeof site);
   const navigate = useNavigate();
-  console.log("THis is issue: ", issues);
+
+  useEffect(() => {
+    if (reduxIssues.issues[siteAsInt]) setRepoFound(true);
+  }, [reduxIssues]);
+
   return (
     <div>
-      <NavLink to={`/issues/${siteAsInt + 1}`}>Next</NavLink>
-      <button
-        onClick={() => {
-          setPage(page);
-          navigate(`/issues/${siteAsInt + 1}`);
-        }}
-      >
-        More
-      </button>
-      {issues[siteAsInt].map((issue, index) => {
+      {reduxIssues.issues[siteAsInt] && (
+        <NavLink to={`/issues/${siteAsInt + 1}`}>Next!</NavLink>
+      )}
+
+      {reduxIssues.issues[siteAsInt].map((issue, index) => {
+        console.log("This is trigger");
         return (
           <p>
             {index + 1}. {issue.node.title}
+            <br />
             <NavLink to={`/issues/${siteAsInt}/${index}`}>See Details</NavLink>
           </p>
         );
@@ -44,3 +65,5 @@ const ListOfIssues: React.FC<Props> = ({ issues, page, setPage }) => {
 };
 
 export default ListOfIssues;
+/*
+ */

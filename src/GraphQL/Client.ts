@@ -1,12 +1,6 @@
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  HttpLink,
-  from,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, from } from "@apollo/client";
 
-import { ErrorLink, onError } from "@apollo/client/link/error";
+import { onError } from "@apollo/client/link/error";
 import { setContext } from "@apollo/client/link/context";
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {

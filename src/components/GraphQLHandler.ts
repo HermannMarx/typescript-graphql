@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { SEARCH_REPO_AND_ISSUES_OPEN } from "../GraphQL/Queries";
+import { SEARCH_REPO_AND_ISSUES } from "../GraphQL/Queries";
 import { useDispatch } from "react-redux";
 import { Actions } from "../reducers";
 
@@ -22,7 +22,7 @@ const GraphQLHandler: React.FC<Props> = ({
   let [counter, setCounter] = useState<String | null>(null);
   const dispatch = useDispatch();
 
-  const { error, loading, data } = useQuery(SEARCH_REPO_AND_ISSUES_OPEN, {
+  const { error, loading, data } = useQuery(SEARCH_REPO_AND_ISSUES, {
     variables: { owner: owner, name: name, after: counter },
   });
   const findRepo = () => {

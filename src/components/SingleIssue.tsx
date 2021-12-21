@@ -16,10 +16,18 @@ const Issue: React.FC = () => {
   if (issuesArray.Issues.issues[siteAsInt])
     return (
       <div>
-        <h3>
+        <h2>
+          {siteAsInt * 50 + singleIssueAsInt + 1}.{" "}
           {issuesArray.Issues.issues[siteAsInt][singleIssueAsInt].node.title}
-        </h3>
-        <h4>
+        </h2>
+        <h4
+          style={{
+            border: "3px solid black",
+            padding: "10px",
+            margin: "10px",
+          }}
+        >
+          {" "}
           {issuesArray.Issues.issues[siteAsInt][singleIssueAsInt].node.body}
         </h4>
         {issuesArray.Issues.issues[siteAsInt][
@@ -32,6 +40,7 @@ const Issue: React.FC = () => {
               margin: "10px",
             }}
           >
+            {index + 1}.{" "}
             {
               issuesArray.Issues.issues[siteAsInt][singleIssueAsInt].node
                 .comments.edges[index].node.bodyText

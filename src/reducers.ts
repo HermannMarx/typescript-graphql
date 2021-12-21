@@ -5,7 +5,7 @@ type State = {
   filteredIssues: Object[];
 };
 
-type SingleIssue = { node: { title: string; body: string } };
+type SingleIssue = { node: { title: string; body: string; state: string } };
 
 const initialState = {
   issues: [],
@@ -23,18 +23,20 @@ const Slice = createSlice({
     },
     filterIssues(state: State, action) {
       let filterArray: Object[] = [];
+      state.filteredIssues = filterArray;
       state.issues.map((issue: SingleIssue[]) =>
         issue.map((singleIssue: SingleIssue) => {
           if (
-            action.payload.length > 3 &&
-            (singleIssue.node.title.indexOf(action.payload) !== -1 ||
-              singleIssue.node.body.indexOf(action.payload) !== -1)
-          )
+            action.payload.term.length > 3 &&
+            (singleIssue.node.title.indexOf(action.payload.term) !== -1 ||
+              singleIssue.node.body.indexOf(action.payload.term) !== -1) &&
+            singleIssue.node.state === action.payload.status
+          ) {
             filterArray.push(singleIssue.node);
+          } else if (action.payload.term.length <= 3) filterArray = [];
         })
       );
       state.filteredIssues = filterArray;
-      console.log("This is filter: ", filterArray);
     },
   },
 });

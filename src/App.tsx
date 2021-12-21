@@ -8,6 +8,7 @@ import client from "./GraphQL/Client";
 import SingleIssue from "./components/SingleIssue";
 import GraphQLHandler from "./components/GraphQLHandler";
 import FilteredList from "./components/FilteredList";
+import SingleFilteredIssue from "./components/SingleFilteredIssue";
 
 const App: React.FC = () => {
   const [owner, setOwner] = useState<string>("");
@@ -30,6 +31,7 @@ const App: React.FC = () => {
                 search={search}
                 setSearch={setSearch}
                 repoFound={repoFound}
+                setRepoFound={setRepoFound}
               />
             }
           />
@@ -47,6 +49,10 @@ const App: React.FC = () => {
           <Route
             path={"/issues/filter"}
             element={<FilteredList setRepoFound={setRepoFound} />}
+          />
+          <Route
+            path={"/issues/filter/:singleIssue"}
+            element={<SingleFilteredIssue />}
           />
         </Routes>
         {search && (

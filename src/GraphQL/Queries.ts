@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client";
 
-export const SEARCH_REPO_AND_ISSUES_OPEN = gql`
+export const SEARCH_REPO_AND_ISSUES = gql`
   query fetchRepo($owner: String!, $name: String!, $after: String) {
     repository(owner: $owner, name: $name) {
       issues(first: 50, after: $after) {
@@ -33,7 +33,7 @@ export const SEARCH_REPO_AND_ISSUES_OPEN = gql`
     }
   }
 `;
-
+/*
 export const LOAD_FACEBOOK_REACT_CLOSED = gql`
   query {
     repository(owner: "facebook", name: "react") {
@@ -82,29 +82,6 @@ export const LOAD_OPEN_ISSUE = gql`
                 }
               }
             }
-            labels(first: 5) {
-              edges {
-                node {
-                  name
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-`;
-/*
-export const LOAD_FACEBOOK_REACT = gql`
-  query {
-    repository(owner: "facebook", name: "react") {
-      issues(last: 20, states: CLOSED) {
-        edges {
-          node {
-            title
-            url
-            body
             labels(first: 5) {
               edges {
                 node {

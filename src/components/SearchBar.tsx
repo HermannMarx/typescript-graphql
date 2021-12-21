@@ -8,6 +8,7 @@ interface Props {
   search: Boolean;
   setSearch: Function;
   repoFound: Boolean;
+  setRepoFound: Function;
 }
 
 const SearchBar: React.FC<Props> = ({
@@ -18,6 +19,7 @@ const SearchBar: React.FC<Props> = ({
   search,
   setSearch,
   repoFound,
+  setRepoFound,
 }) => {
   return (
     <div>
@@ -45,6 +47,17 @@ const SearchBar: React.FC<Props> = ({
         }}
       >
         {!search ? "Search" : !repoFound ? "Loading" : "Found"}
+      </button>
+
+      <button
+        onClick={() => {
+          setSearch(false);
+          setOwner("");
+          setName("");
+          setRepoFound(false);
+        }}
+      >
+        Reset
       </button>
       {repoFound ? (
         <div>

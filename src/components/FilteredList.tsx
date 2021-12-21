@@ -1,7 +1,6 @@
-import { useNavigate, useParams, NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
-import { Actions } from "../reducers";
+import { useParams, NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 interface Props {
   setRepoFound: Function;
@@ -35,33 +34,23 @@ type DefaultRootState = {
 };
 
 const FilteredList: React.FC<Props> = ({ setRepoFound }) => {
-  const [term, setTerm] = useState<string>("");
   const reduxIssues = useSelector((state: DefaultRootState) => state.Issues);
-  const dispatch = useDispatch();
-
-  console.log("This is redux: ", reduxIssues);
-
   const { site } = useParams();
   const siteAsInt = parseInt(site + "");
-  console.log("Typeofsite", typeof site);
-  const navigate = useNavigate();
-
-  const handleSearch = (newValue: string) => {
-    dispatch(Actions.filterIssues(newValue));
-    setTerm(newValue);
-  };
 
   useEffect(() => {
     if (reduxIssues.issues[siteAsInt]) setRepoFound(true);
   }, [reduxIssues]);
 
-  console.log("Filtered page! ", reduxIssues.filteredIssues);
-
   return (
     <div>
       {reduxIssues.filteredIssues
-        ? reduxIssues.filteredIssues.map((singleIssue) => (
-            <p>{singleIssue.title}</p>
+        ? reduxIssues.filteredIssues.map((singleIssue, index) => (
+            <p>
+              {index}. {singleIssue.title}
+              <br />
+              <NavLink to={`/issues/filter/${index}`}>See Details</NavLink>
+            </p>
           ))
         : null}
     </div>

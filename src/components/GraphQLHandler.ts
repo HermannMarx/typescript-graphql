@@ -8,6 +8,7 @@ interface Props {
   owner: string;
   name: string;
   search: Boolean;
+  repoFound: Boolean;
   setRepoFound: Function;
 }
 
@@ -15,6 +16,7 @@ const GraphQLHandler: React.FC<Props> = ({
   owner,
   name,
   search,
+  repoFound,
   setRepoFound,
 }) => {
   let [counter, setCounter] = useState<String | null>(null);
@@ -30,7 +32,7 @@ const GraphQLHandler: React.FC<Props> = ({
         (issue: Object) => issue
       );
       dispatch(Actions.updateIssues(newIssues));
-      setRepoFound(true);
+      if (!repoFound) setRepoFound(true);
       console.log("Repo is true now");
 
       if (data.repository.issues.pageInfo.endCursor !== counter)
@@ -38,7 +40,7 @@ const GraphQLHandler: React.FC<Props> = ({
     }
   };
 
-  useEffect(() => findRepo(), [data, counter, search]);
+  useEffect(() => findRepo(), [data]);
   return null;
 };
 

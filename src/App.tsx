@@ -7,6 +7,7 @@ import { ApolloProvider } from "@apollo/client";
 import client from "./GraphQL/Client";
 import SingleIssue from "./components/SingleIssue";
 import GraphQLHandler from "./components/GraphQLHandler";
+import FilteredList from "./components/FilteredList";
 
 const App: React.FC = () => {
   const [owner, setOwner] = useState<string>("");
@@ -43,12 +44,17 @@ const App: React.FC = () => {
             path={`/issues/:site/:singleIssue`}
             element={<SingleIssue />}
           />
+          <Route
+            path={"/issues/filter"}
+            element={<FilteredList setRepoFound={setRepoFound} />}
+          />
         </Routes>
         {search && (
           <GraphQLHandler
             owner={owner}
             name={name}
             search={search}
+            repoFound={repoFound}
             setRepoFound={setRepoFound}
           />
         )}

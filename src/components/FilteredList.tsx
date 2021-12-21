@@ -7,7 +7,7 @@ interface Props {
   setRepoFound: Function;
 }
 
-type SingleIssue = { node: { title: string; body: string } };
+type SingleIssue = { title: string; body: string };
 
 type DefaultRootState = {
   Issues: {
@@ -34,7 +34,7 @@ type DefaultRootState = {
   };
 };
 
-const ListOfIssues: React.FC<Props> = ({ setRepoFound }) => {
+const FilteredList: React.FC<Props> = ({ setRepoFound }) => {
   const [term, setTerm] = useState<string>("");
   const reduxIssues = useSelector((state: DefaultRootState) => state.Issues);
   const dispatch = useDispatch();
@@ -55,37 +55,17 @@ const ListOfIssues: React.FC<Props> = ({ setRepoFound }) => {
     if (reduxIssues.issues[siteAsInt]) setRepoFound(true);
   }, [reduxIssues]);
 
+  console.log("Filtered page! ", reduxIssues.filteredIssues);
+
   return (
     <div>
-      {reduxIssues.issues[siteAsInt] && (
-        <NavLink to={`/issues/${siteAsInt + 1}`}>Next!</NavLink>
-      )}
-      <label>
-        Search by Term
-        <input
-          type="text"
-          value={term}
-          onChange={(e) => handleSearch(e.target.value)}
-        />
-      </label>
-      <NavLink to="/issues/filter">
-        Issues found: {reduxIssues.filteredIssues.length}
-      </NavLink>
-
-      {reduxIssues.issues[siteAsInt].map((issue, index) => {
-        console.log("This is trigger");
-        return (
-          <p>
-            {siteAsInt * 50 + index + 1}. {issue.node.title}
-            <br />
-            <NavLink to={`/issues/${siteAsInt}/${index}`}>See Details</NavLink>
-          </p>
-        );
-      })}
+      {reduxIssues.filteredIssues
+        ? reduxIssues.filteredIssues.map((singleIssue) => (
+            <p>{singleIssue.title}</p>
+          ))
+        : null}
     </div>
   );
 };
 
-export default ListOfIssues;
-/*
- */
+export default FilteredList;
